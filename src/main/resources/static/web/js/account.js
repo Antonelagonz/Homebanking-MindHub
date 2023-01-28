@@ -29,7 +29,7 @@ createApp({
 			this.queryString = location.search;
             let params = new URLSearchParams(this.queryString);
             let id = params.get("id")
-			axios.get("http://localhost:8080/api/accounts/" + id)
+			axios.get("/api/accounts/" + id)
 				.then((response) => {
 					this.json = response.data;
 					this.transactionData = this.json.transactions;
@@ -65,7 +65,7 @@ createApp({
         downloadPDF() {
             axios({
                 method: 'post',
-                url: 'http://localhost:8080/api/downloadPDF',
+                url: '/api/downloadPDF',
                 responseType: 'blob',
                 headers: { 'Content-Type': 'application/json' },
                 data: JSON.stringify(this.transactionData)
