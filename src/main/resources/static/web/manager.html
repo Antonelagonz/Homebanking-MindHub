@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="./assets/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+  
+    <link rel="shortcut icon" href="./assets/favicon.png" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans&display=swap" rel="stylesheet">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Public+Sans&display=swap');
+    </style>
+    <script src="https://kit.fontawesome.com/252adced34.js" crossorigin="anonymous"></script>
+  
+    <title>MindHub Bank-Manager</title>
+  </head>
+<body>
+  <div id="app">
+    <header>
+
+      <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+          <a class="me-auto justify-content-start navbar-brand" href="#">
+            <h1 class="navbar-title"> <img src="./assets/iconPurple50.png" alt=""> MindHub Bank</h1>
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse nav-bar" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="btn text-light navbar-text m-2 navbar-brand btn-nav" href="#">Home</a>
+                <a class="btn text-light navbar-text m-2 navbar-brand btn-nav" href="./accounts.html">Accounts</a>
+                <a class="btn text-light navbar-text m-2 navbar-brand btn-nav" href="./transfers.html">Transfers</a>
+                <a class="btn text-light navbar-text m-2 navbar-brand btn-nav" href="./cards.html">Cards</a>
+                <a class="btn text-light navbar-text m-2 navbar-brand btn-nav" href="./payments.html">Payments</a>
+                <a class="btn text-light navbar-text m-2 navbar-brand btn-nav" href="./admin-loan.html">Create loans</a>
+                <a class="btn text-light navbar-text m-2 navbar-brand btn-login" @click="logOut">Log out</a>
+            </div>
+        </div>
+        </div>
+      </nav>
+    
+    </header>
+    <main class="mainManager">
+      <div class="form-client">
+        <h2 class="subtitle">Client Manager</h2>
+        <form class="col-6 mx-auto">
+            <div class="form-bg">
+                <label for="inputFirstName" class="form-label">First name:</label>
+                <input type="text" class="form-control" id="inputFirstName" v-model="firstName" required>
+            </div>
+            <div class="form-bg">
+                <label for="inputLastName" class="form-label">Last name:</label>
+                <input type="text" class="form-control" id="inputLastName" v-model="lastName" required>
+            </div>
+            <div class="form-bg">
+                <label for="inputEmail" class="form-label">Email address:</label>
+                <input type="email" class="form-control" id="inputEmail" v-model="email" required>
+            </div>
+        <button type="button" class="btn btn-client" @click="addClient">Add Client</button>
+    </form>
+<h3 class="subtitle">Client list</h3>
+<div class="table-responsive clients-table">
+<table class="table  table-responsive bg-light">
+    <thead>
+      <tr>
+        <th scope="col">First name</th>
+        <th scope="col">Last name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Delete or change data</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr  v-for="cliente of clientes">
+        <td class="td-clients">{{cliente.firstName}} 
+          <button type="button" class="btn btn-light btn-edit" data-bs-toggle="modal" data-bs-target="#exampleModalFirstName" @click="changeFNameClient(cliente)">&#128394;&#65039;</button>
+        </td>
+        <td class="td-clients">{{cliente.lastName}} 
+          <button type="button" class="btn btn-light btn-edit" data-bs-toggle="modal" data-bs-target="#exampleModalLastName" @click="changeLNameClient(cliente)">&#128394;&#65039;</button>
+        </td>
+        <td class="td-clients">{{cliente.email}} 
+          <button type="button" class="btn btn-light btn-edit"  data-bs-toggle="modal" data-bs-target="#exampleModalEmail" @click="changeEmailClient(cliente)">&#128394;&#65039;</button>
+        </td>
+        <td class="d-flex justify-content-center gap-2">
+          <button type="button" class="btn btn-danger" @click="deleteClient(cliente)">&#128465;&#65039;</button>   
+          <button @click="changeClient(cliente)" type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exampleModal">&#9999;&#65039;</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+  <!-- MODAL NEW FIRST NAME -->
+<div class="modal fade" id="exampleModalFirstName" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Change first name client</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="modal-body">
+                  <div class="mb-3">
+                      <label for="inputNewFirstName" class="form-label">First Name: </label>
+                      <input type="text" class="form-control" id="inputNewFirstName" v-model="inputNewFirstName">
+                  </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+              <button @click="saveNewFNameClient" type="button" class="btn btn-primary" data-bs-dismiss="modal">Save new changes</button>
+          </div>
+      </div>
+  </div>
+</div>
+
+  <!-- MODAL NEW LAST NAME  -->
+<div class="modal fade" id="exampleModalLastName" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Change last name client</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="modal-body">
+                  <div class="mb-3">
+                      <label for="inputNewLastName" class="form-label">Last Name: </label>
+                      <input type="text" class="form-control" id="inputNewLastName" v-model="inputNewLastName">
+                  </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+              <button @click="saveNewLNameClient" type="button" class="btn btn-primary" data-bs-dismiss="modal">Save new changes</button>
+          </div>
+      </div>
+  </div>
+</div>
+  <!-- MODAL NEW CLIENT EMAIL -->
+<div class="modal fade" id="exampleModalEmail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Change client email</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="modal-body">
+                  <div class="mb-3">
+                      <label for="inputNewEmail" class="form-label">Email: </label>
+                      <input type="email" class="form-control" id="inputNewEmail" v-model="inputNewEmail">
+                  </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+              <button @click="saveNewEmailClient" type="button" class="btn btn-primary" data-bs-dismiss="modal">Save new changes</button>
+          </div>
+      </div>
+  </div>
+</div>
+  
+  <!-- MODALL ALL DATA CLIENT -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Change client data</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="inputNewFirstName" class="form-label">First Name: </label>
+                        <input type="text" class="form-control" id="inputNewFirstName" v-model="inputNewFirstName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="inputNewLastName" class="form-label">Last Name: </label>
+                        <input type="text" class="form-control" id="inputNewLastName" v-model="inputNewLastName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="inputNewMail" class="form-label">Email: </label>
+                        <input type="email" class="form-control" id="inputNewMail" v-model="inputNewEmail">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button @click="saveNewInfo" type="button" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="json-client">
+  <h2 class="subtitle">Client REST resposnse</h2>
+<pre>{{json}}</pre>
+</div>
+</main>
+
+<footer class="text-center text-lg-start footer" style="background-color: #F0F8FF; box-shadow: 0 -5px 5px -5px #333;">
+  <!-- Grid container -->
+  <div class="container">
+      <!-- Section: Links -->
+      <!--Grid row-->
+      <div class="row">
+          <!-- Grid column Horarios de Atención-->
+          <div class="col-md-4 col-lg-3 col-xl-3 col-xs mx-auto p-0 mt-2">
+              <h5 class="mb-3 fw-semibold">Member Contact Center Hours</h5>
+              <table class="table table-footer mx-auto">
+              <tbody class="font-weight-normal text-center">
+                  <tr class="footer">
+                  <td>Monday - Friday: </td>
+                  <td>8 am to 5 pm</td>
+                  </tr>
+                  <tr class="footer">
+                  <td>Saturday:</td>
+                  <td>9 am to 1 pm</td>
+                  </tr>
+              </tbody>
+              </table>
+          </div>        
+          <!-- Grid column Contacto-->
+          <div class="col-md-4 col-lg-3 col-xl-3 col-xs mx-auto p-0 mt-2">
+          <h5 class="mb-3 fw-semibold">Products & Services</h5>
+          <a href="#" class="a-footer"><i class="bi bi-chevron-right"></i>Everyday accounts</a>
+          <br>
+          <a href="#" class="a-footer"><i class="bi bi-chevron-right"></i> Saving accounts</a>
+          <br>
+          <a href="#" class="a-footer"><i class="bi bi-chevron-right"></i>Home loans</a>
+          <br>
+          <a href="#" class="a-footer"><i class="bi bi-chevron-right"></i>Personal loans</a>
+          <br>
+          </div>
+
+          <div class="col-md-4 col-lg-3 col-xl-3 col-xs mx-auto p-0 mt-2">
+            <h5 class="mb-3 fw-semibold">Help & Support</h5>
+              <a href="#" class="a-footer"><i class="bi bi-chevron-right"></i>Financial tips</a>
+              <br>
+              <a href="#" class="a-footer"><i class="bi bi-chevron-right"></i>Scam & Fraud Protection</a>
+              <br>
+              <a href="#" class="a-footer"><i class="bi bi-chevron-right"></i>Privary policy</a>
+              <br>
+              <a href="#" class="a-footer"><i class="bi bi-chevron-right"></i>Terms & Conditions</a>
+              <br>
+          </div>
+          <!-- Grid column Redes sociales-->
+          <div class="col-md-4 col-lg-3 col-xl-3 col-xs mx-auto p-0 mt-2">
+          <h5 class="mb-3 fw-semibold">Get in touch</h5>
+          <a href="tel: 0800-333-444" class="a-footer"><i class="bi bi-chevron-right"></i>Call us: 0800-333-444</a> <br>
+            <a href="mailto: info@mindhub.com" class="a-footer"><i class="bi bi-chevron-right"></i>Email:info@mindhub.com</a><br>          
+          <!-- Facebok -->
+          <a class="btn btn-floating footer-btn" href="https://www.facebook.com/" role="button"><img class="LogosFooter" src="./assets/Facebook.png" alt="Facebook Logo"></a>
+          <!-- Instagram -->
+          <a class="btn btn-floating footer-btn" href="https://www.instagram.com/" role="button"><img class="LogosFooter" src="./assets/IG.png" alt="Instagram Logo"></a>
+          <!-- Whatsapp -->
+          <a class="btn btn-floating footer-btn" href="https://web.whatsapp.com/" role="button"><img class="LogosFooter" src="./Assets/Whatsapp.png" alt="Whatsapp Logo"></a>
+          </div>
+      </div>
+      <!--Grid row-->
+  </div>
+  <!-- Grid container -->
+
+  <div class="text-center w-100" style="background-color: #A3B5E1">
+      © 2020 Copyright:<a class="footer-text">Antonela Gonzalez - Cohort 37/38</a>
+  </div>
+</footer>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./js/manager.js"></script>
+</body>
+
+</html>

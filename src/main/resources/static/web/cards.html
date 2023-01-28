@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+		<link rel="stylesheet" href="./assets/style.css" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"/>
+		<link rel="shortcut icon" href="./assets/favicon.png" type="image/x-icon" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Public+Sans&display=swap"
+			rel="stylesheet"
+		/>
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Public+Sans&display=swap');
+		</style>
+		<script src="https://kit.fontawesome.com/252adced34.js" crossorigin="anonymous"></script>
+
+		<title>MindHub Bank-Accounts</title>
+	</head>
+
+	<body class="bodyCards">
+		<div id="app">
+			<header>
+				<nav class="navbar navbar-expand-lg">
+					<div class="container-fluid">
+						<a class="me-auto justify-content-start navbar-brand" href="#">
+							<h1 class="navbar-title">
+								<img src="./assets/iconPurple50.png" alt="" /> MindHub Bank
+							</h1>
+						</a>
+						<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+							<span class="navbar-toggler-icon"></span>
+						</button>
+						<div class="collapse navbar-collapse nav-bar" id="navbarNavAltMarkup">
+							<div class="navbar-nav">
+								<a class="btn text-light navbar-text m-2 navbar-brand btn-nav" href="#">Home</a>
+								<a class="btn text-light navbar-text m-2 navbar-brand btn-nav" href="./accounts.html">Accounts</a>
+								<a class="btn text-light navbar-text m-2 navbar-brand btn-nav" href="./transfers.html">Transfers</a>
+								<a class="btn text-light navbar-text m-2 navbar-brand btn-nav" href="#">Cards</a>
+								<a class="btn text-light navbar-text m-2 navbar-brand btn-nav" href="./payments.html">Payments</a>
+								<a class="btn text-light navbar-text m-2 navbar-brand btn-nav" href="./loan-application.html">Loans</a>
+								<a class="btn text-light navbar-text m-2 navbar-brand btn-login" @click="logOut">Log out</a>
+							</div>
+						</div>
+					</div>
+				</nav>
+			</header>
+
+			<main class="mainCards">
+				<h3 class="fw-bold text-center subtitle mt-4">
+					Welcome back {{json.firstName}} {{json.lastName}}!
+				</h3>
+
+
+				<div class="d-flex w-100 justify-content-center allCards" >
+					<div class="divCreditCards">
+					<h2 class="text-center subtitle mt-4">Your Credit Cards <i class="bi bi-credit-card"></i></h2>
+					<div v-if="creditCards.length == 0">
+						<h4 class="text-center subtitle mt-4">You don't have any credit card.  You can get one here <i class="bi bi-arrow-down-square-fill"></i></h4>
+					</div>
+					<div class="cont-creditCards" v-for="card of creditCards">
+						<div class="card__client mx-auto m-4">
+							<div class="card__front card__part" :class="card.cardColor">
+								<div>
+								<img class="card__front-chip card__square" src="./assets/chip.png"/>
+								<img class="card__front-contactless card__square" src="./assets/contactless.png" />
+								<img class="card__front-logo card__logo" :src="card.cardType == 'CREDIT' ? './assets/visa1.png' : './assets/visaDebit.png'" />
+								</div>
+								<p class="card_numer">{{card.cardNumber}}</p>
+								<div class="card__space-75">
+									<span class="card__label">Card holder</span>
+									<p class="card__info">{{card.cardHolder}}</p>
+								</div>
+								<div class="card__space-25">
+									<span class="card__label">Valid from</span>
+									<p class="card__info-date">{{card.fromDate}}</p>
+									<span class="card__label">Valid thru</span>
+									<p class="card__info-date">{{card.thruDate}}</p>
+								</div>
+							</div>
+
+							<div :class="'card__back card__part ' +card.cardColor">
+								<div class="card__black-line"></div>
+								<div class="card__back-content">
+									<div class="card__secret">
+										<p class="card__secret--last">{{card.cvv}}</p>
+									</div>
+									<img class="card__back-square card__banklogo" src="./assets/favicon.png" />
+									<img class="card__back-logo card__logo" :src="card.cardType == 'CREDIT' ? './assets/visa1.png' : './assets/visaDebit.png'" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="divDebitCards">
+					<h2 class="text-center subtitle mt-4">Your Debit Cards </h2>
+					<div v-if="debitCards.length == 0">
+						<h4 class="text-center subtitle mt-4">You don't have any debit card. You can get one here <i class="bi bi-arrow-down-square-fill"></i></h4>
+					</div>
+					<div class="cont-debitCards" v-for="card of debitCards">
+						<div class="card__client mx-auto m-4">
+							<div class="card__front card__part" :class="card.cardColor">
+								<div>
+								<img class="card__front-chip card__square" src="./assets/chip.png"/>
+								<img class="card__front-contactless card__square" src="./assets/contactless.png" />
+								<img class="card__front-logo card__logo" :src="card.cardType == 'CREDIT' ? './assets/visa1.png' : './assets/visaDebit.png'" />
+							</div>
+								<p class="card_numer">{{card.cardNumber}}</p>
+								<div class="card__space-75">
+									<span class="card__label">Card holder</span>
+									<p class="card__info">{{json.firstName}} {{json.lastName}}</p>
+								</div>
+								<div class="card__space-25">
+									<span class="card__label">Valid from</span>
+									<p class="card__info-date" :class="(card.thruDate >= card.fromDate) ? 'bg-danger' : ''">{{card.thruDate}} </p>
+									<span class="card__label">Valid thru</span>
+									<p class="card__info-date" :class="(card.thruDate >= card.fromDate) ? 'bg-danger' : ''">{{card.fromDate}}</p>
+								</div>
+							</div>
+							<div :class="'card__back card__part ' +card.cardColor">
+								<div class="card__black-line"></div>
+								<div class="card__back-content">
+									<div class="card__secret">
+										<p class="card__secret--last">{{card.cvv}}</p>
+									</div>
+									<img class="card__back-square card__banklogo" src="./assets/favicon.png" />
+									<img class="card__back-logo card__logo" :src="card.cardType == 'CREDIT' ? './assets/visa1.png' : './assets/visaDebit.png'" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				</div>
+					<div class="d-flex justify-content-center mb-4">
+						<a href="/web/create-cards.html" v-show="cards.length < 6" class="btn btn-create"> Create a new card</a>
+					</div>
+					<div class="d-flex justify-content-center mb-4">
+						<button type="button" class="btn btn-create btn-transfer" data-bs-toggle="modal" data-bs-target="#modalDisableCard">Disable a card</button>
+					</div>
+			</main>
+			<div class="modal" tabindex="-1" id="modalDisableCard">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Select a card to disable</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<select class="form-select form-select-lg" aria-label=".form-select-lg example" v-model="card">
+								<option selected>Open to select a card</option>
+								<template v-for="card of cards">
+									<option :value="card">{{card.cardNumber}} {{card.cardType}} & {{card.cardColor}}</option>
+								</template>
+							</select>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-primary"  @click="disableCard(card)">Disable card</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+		<footer class="text-center text-lg-start footer" style="background-color: #f0f8ff; box-shadow: 0 -5px 5px -5px #333">
+			<!-- Grid container -->
+			<div class="container">
+				<!-- Section: Links -->
+				<!--Grid row-->
+				<div class="row">
+					<!-- Grid column Horarios de Atención-->
+					<div class="col-md-4 col-lg-3 col-xl-3 col-xs mx-auto p-0 mt-2">
+						<h5 class="mb-3 fw-semibold">Member Contact Center Hours</h5>
+						<table class="table table-footer mx-auto">
+							<tbody class="font-weight-normal text-center">
+								<tr class="footer">
+									<td>Monday - Friday:</td>
+									<td>8 am to 5 pm</td>
+								</tr>
+								<tr class="footer">
+									<td>Saturday:</td>
+									<td>9 am to 1 pm</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<!-- Grid column Contacto-->
+					<div class="col-md-4 col-lg-3 col-xl-3 col-xs mx-auto p-0 mt-2">
+						<h5 class="mb-3 fw-semibold">Products & Services</h5>
+						<a href="#" class="a-footer"><i class="bi bi-chevron-right"></i>Everyday accounts</a>
+						<br />
+						<a href="#" class="a-footer"><i class="bi bi-chevron-right"></i> Saving accounts</a>
+						<br />
+						<a href="#" class="a-footer"><i class="bi bi-chevron-right"></i>Home loans</a>
+						<br />
+						<a href="#" class="a-footer"><i class="bi bi-chevron-right"></i>Personal loans</a>
+						<br />
+					</div>
+
+					<div class="col-md-4 col-lg-3 col-xl-3 col-xs mx-auto p-0 mt-2">
+						<h5 class="mb-3 fw-semibold">Help & Support</h5>
+						<a href="#" class="a-footer"><i class="bi bi-chevron-right"></i>Financial tips</a>
+						<br />
+						<a href="#" class="a-footer"
+							><i class="bi bi-chevron-right"></i>Scam & Fraud Protection</a
+						>
+						<br />
+						<a href="#" class="a-footer"><i class="bi bi-chevron-right"></i>Privary policy</a>
+						<br />
+						<a href="#" class="a-footer"><i class="bi bi-chevron-right"></i>Terms & Conditions</a>
+						<br />
+					</div>
+					<!-- Grid column Redes sociales-->
+					<div class="col-md-4 col-lg-3 col-xl-3 col-xs mx-auto p-0 mt-2">
+						<h5 class="mb-3 fw-semibold">Get in touch</h5>
+						<a href="tel: 0800-333-444" class="a-footer"
+							><i class="bi bi-chevron-right"></i>Call us: 0800-333-444</a
+						>
+						<br />
+						<a href="mailto: info@mindhub.com" class="a-footer"
+							><i class="bi bi-chevron-right"></i>Email:info@mindhub.com</a
+						><br />
+						<!-- Facebok -->
+						<a class="btn btn-floating footer-btn" href="https://www.facebook.com/" role="button"
+							><img class="LogosFooter" src="./assets/Facebook.png" alt="Facebook Logo"
+						/></a>
+						<!-- Instagram -->
+						<a class="btn btn-floating footer-btn" href="https://www.instagram.com/" role="button"
+							><img class="LogosFooter" src="./assets/IG.png" alt="Instagram Logo"
+						/></a>
+						<!-- Whatsapp -->
+						<a class="btn btn-floating footer-btn" href="https://web.whatsapp.com/" role="button"
+							><img class="LogosFooter" src="./Assets/Whatsapp.png" alt="Whatsapp Logo"
+						/></a>
+					</div>
+				</div>
+				<!--Grid row-->
+			</div>
+			<!-- Grid container -->
+
+			<div class="text-center w-100" style="background-color: #a3b5e1">
+				© 2020 Copyright:<a class="footer-text">Antonela Gonzalez - Cohort 37/38</a>
+			</div>
+		</footer>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+		<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+		<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+		<script src="./js/cards.js"></script>
+	</body>
+</html>
