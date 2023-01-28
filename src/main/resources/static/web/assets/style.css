@@ -2,7 +2,9 @@
 * {
 	font-family: 'Public Sans', sans-serif !important;
 }
-
+[v-cloak] {
+	display: none;
+}
 header,
 .navbar-text {
 	background-color: #f0f8ff;
