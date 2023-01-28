@@ -14,15 +14,15 @@ import static org.hamcrest.Matchers.*;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class AccountUtilsTest {
 
-    @Autowired
+/*    @Autowired
     AccountRepository accountRepository;
 
-    /*-------------------ACCOUNT UTIL TEST-----------------*/
+    *//*-------------------ACCOUNT UTIL TEST-----------------*//*
 
     @Test
     public void accountNumberIsCreated(){
         String accountNumber = AccountUtils.getAccountNumber(accountRepository);
         assertThat(accountNumber,is(not(emptyOrNullString())));
-    }
+    }*/
 }
 

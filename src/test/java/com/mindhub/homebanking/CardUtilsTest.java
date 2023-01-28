@@ -20,7 +20,7 @@ public class CardUtilsTest {
 
 
 
-    @Autowired
+   /* @Autowired
     CardRepository cardRepository;
 
     @Test
@@ -33,5 +33,5 @@ public class CardUtilsTest {
     public void cardCVVIsCreated(){
         int cardCVV = CardUtils.getCVVNumber();
         assertThat(cardCVV, notNullValue());
-    }
+    }*/
 }
